@@ -2,7 +2,7 @@
 import React, { lazy, Suspense } from "react";
 import type {FC} from 'react'
 import { useRoutes, Navigate } from "react-router-dom";
-import { HomeOutlined, ShopOutlined, DatabaseOutlined } from "@ant-design/icons";
+import { HomeOutlined, ShopOutlined, DatabaseOutlined, LockOutlined } from "@ant-design/icons";
 import type { SRoutes } from "./types";
 
 import {
@@ -25,7 +25,9 @@ const AddOrUpdateHospital = lazy(() => import("@/pages/hospital/hospitalSet/comp
 const HospitalShow = lazy(() => import("@pages/hospital/hospitalList/HospitalShow"));
 const HospitalSchedule = lazy(() => import("@pages/hospital/hospitalList/HospitalSchedule"));
 const Dict = lazy(() => import("@pages/cmn/dict"));
-
+const User = lazy(() => import("@pages/acl/user"));
+const Permision = lazy(() => import("@pages/acl/permision"));
+const Role = lazy(() => import("@pages/acl/role"));
 const load = (Comp: FC) => {
   return (
     // 因为路由懒加载，组件需要一段网络请求时间才能加载并渲染
@@ -147,6 +149,36 @@ const routes: SRoutes = [
           }
         ]
       },
+      {
+        path: "/syt/acl",
+        meta: { 
+          icon: <LockOutlined />,
+          title: '权限管理'
+        },
+        children: [
+          {
+            path: '/syt/acl/user',
+            meta: {
+              title: '用户管理'
+            },
+            element: load(User)
+          },
+          {
+            path: '/syt/acl/role',
+            meta: {
+              title: '角色管理'
+            },
+            element: load(Role)
+          },
+          {
+            path: '/syt/acl/permision',
+            meta: {
+              title: '菜单管理'
+            },
+            element: load(Permision)
+          }
+        ]
+      }
     ],
   },
 
