@@ -2,6 +2,8 @@
 export interface ReqGetUserInfoResponse {
   name: string;
   avatar: string;
+  routes?: string[];
+  buttons?: string[];
 }
 
 // 请求登陆的响应数据类型

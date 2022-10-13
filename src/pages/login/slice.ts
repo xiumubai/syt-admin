@@ -1,5 +1,6 @@
 import { reqGetUserInfo, reqLogin, reqLogout } from "@/api/user";
 import { RootState } from "@/app/store";
+import route from "@/locales/lang/en_US/route";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // 登陆参数的类型
@@ -13,13 +14,17 @@ interface UserState {
   token: string;
   name: string;
   avatar: string;
+  routes?: string[];
+  buttons?: string[];
 }
 
 // 初始状态
 const initialState: UserState = {
   token: localStorage.getItem('token_key') || '',
   name: '',
-  avatar: ''
+  avatar: '',
+  routes: [],
+  buttons: []
 }
 
 // 登陆 
@@ -52,16 +57,25 @@ const userSlice = createSlice({
       // 登陆请求成功后的reducer处理
       .addCase(loginAsync.fulfilled, (state, action) => {
         // 将token保存localStorage / redux
-        const token = action.payload.token
+        const token:any = action.payload
         localStorage.setItem('token_key', token)
         state.token = token
       })
       // 获取用户信息请求成功后的reducer处理
       .addCase(getUserInfoAsync.fulfilled, (state, action) => {
         // 将返回的name和avatar只保存到redux
-        const {name, avatar} = action.payload
+        console.log(action);
+        
+        const {name, avatar, routes, buttons} = action.payload
         state.name = name
         state.avatar = avatar
+        state.routes = routes;
+        state.buttons = buttons;
+
+        // TODO: 根据后端返回的routes筛选前端需要控制权限的路由
+
+        // 获取到allAsyncRoutes，和routers根据name进行匹配，匹配完成放到state.routres当中，还需要吧anyRoute也加入到其中
+
       })
       // 退出请求成功后的reducer处理
       .addCase(logoutAsync.fulfilled, (state, action) => {

@@ -2,8 +2,8 @@ import React from "react";
 import { useLocation, matchPath } from "react-router-dom";
 import { Breadcrumb } from "antd";
 
-import { findSideBarRoutes } from "@/routes";
-import { SRoutes } from "@/routes/types";
+import { findSideBarRoutes } from "@/router";
+import { SRoutes } from "@/router/types";
 
 const BreadcrumbItem = Breadcrumb.Item;
 

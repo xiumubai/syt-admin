@@ -2,8 +2,8 @@ import { useState, useEffect, MouseEvent } from "react";
 import { useLocation, useNavigate, matchPath } from "react-router-dom";
 
 import Tab from "./components/Tab";
-import routes from "@/routes";
-import { SRoutes, SMeta } from "@/routes/types";
+import routes from "@/router";
+import { SRoutes, SMeta } from "@/router/types";
 import Translation from "@comps/Translation";
 
 import { TabsType } from "./types";

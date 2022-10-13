@@ -5,7 +5,7 @@ import enUS from "antd/lib/locale/en_US";
 import { useAppSelector } from "@/app/hooks";
 import { selectLang } from "@/app/appSlice";
 
-import { useAppRoutes } from "./routes";
+import { useAppRoutes } from "./router";
 
 function App() {
   const lang = useAppSelector(selectLang);

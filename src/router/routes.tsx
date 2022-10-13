@@ -1,18 +1,16 @@
-// src/routes/index.tsx
 import React, { lazy, Suspense } from "react";
 import type {FC} from 'react'
-import { useRoutes, Navigate } from "react-router-dom";
-import { HomeOutlined, ShopOutlined, DatabaseOutlined, LockOutlined } from "@ant-design/icons";
-import type { SRoutes } from "./types";
-
 import {
   Layout,
   EmptyLayout,
   // CompLayout
 } from "../layouts";
 import Loading from "@comps/Loading";
-
+import { Navigate } from "react-router-dom";
 import Translation from "@comps/Translation";
+import { HomeOutlined, ShopOutlined, DatabaseOutlined, LockOutlined } from "@ant-design/icons";
+
+import type { SRoutes } from "./types";
 
 const Login = lazy(() => import("@pages/login"));
 const Dashboard = lazy(() => import("@pages/dashboard"));
@@ -41,7 +39,14 @@ const load = (Comp: FC) => {
   );
 };
 
-const routes: SRoutes = [
+
+// TODO： 路由改造-首页（不需要权限控制），404，*不需要权限控制
+
+// 路由全部添加name字段，路由会根据name字段匹配，注意name的值需要跟菜单管理当中的权限值相同才能匹配
+
+// 不需要权限的路由
+
+export const constantRoutes = [
   {
     path: "/",
     element: <EmptyLayout />,
@@ -52,12 +57,33 @@ const routes: SRoutes = [
       },
     ],
   },
+]
+
+
+
+// 404、*路由
+export const anyRoute = [
+  {
+    path: "/404",
+    element: load(NotFound),
+  },
+  {
+    path: "*",
+    element: <Navigate to="/404" />,
+  },
+]
+
+// 需要权限的路由
+
+export const allAsyncRoutes: SRoutes = [
   {
     path: "/syt",
     element: <Layout />,
+    name: "Syt",
     children: [
       // 首页路由
       {
+        name: "Dashboard",
         path: "/syt/dashboard",
         meta: { 
           icon: <HomeOutlined />, 
@@ -77,6 +103,7 @@ const routes: SRoutes = [
       children: 子路由的数组
       */
       {
+        name: "Hospital",
         path: "/syt/hospital",
         meta: { 
           icon: <ShopOutlined />, 
@@ -85,6 +112,7 @@ const routes: SRoutes = [
         // element: load(Dashboard),
         children: [
           {
+            name: "Hospital/Set",
             // path: 'hospitalList',  // 注册路由简写是可以, 但是导航Menu需要完整路径, 简写不可以
             path: '/syt/hospital/hospitalset', // 得用完整写法
             meta: {
@@ -94,6 +122,7 @@ const routes: SRoutes = [
           },
 
           {
+            name: 'Hospital/Add',
             path: '/syt/hospital/hospitalset/add',
             meta: {
               title: '添加医院'
@@ -103,6 +132,7 @@ const routes: SRoutes = [
           },
 
           {
+            name: 'Hospital/Edit',
             path: '/syt/hospital/hospitalset/edit/:id',  // 指定param参数占位
             meta: {
               title: '修改医院'
@@ -112,6 +142,7 @@ const routes: SRoutes = [
           },
 
           {
+            name: 'Hospital/List',
             path: '/syt/hospital/hospitallist',
             meta: {
               title: '医院列表'
@@ -119,12 +150,14 @@ const routes: SRoutes = [
             element: load(HospitalList),
           },
           {
+            name: "Hospital/Show",
             path: "/syt/hospital/hospitallist/show/:id",
             meta: { title: "查看医院详情" },
             element: load(HospitalShow),
             hidden: true,
           },
           {
+            name: "Hospital/Schedule",
             path: "/syt/hospital/hospitallist/schedule/:hoscode",  // 要携带的是医院的编号
             meta: { title: "查看医院排班" },
             element: load(HospitalSchedule),
@@ -136,12 +169,14 @@ const routes: SRoutes = [
       // 数据管理
       {
         path: "/syt/cmn",
+        name: "Cmn",
         meta: { 
           icon: <DatabaseOutlined/>,
-          title: '数据管理' 
+          title: '数据管理'
         },
         children: [
           {
+            name: "Cmn/Dict",
             path: '/syt/cmn/dict',
             meta: { 
               title: '数据字典'
@@ -152,12 +187,14 @@ const routes: SRoutes = [
       },
       {
         path: "/syt/acl",
+        name: 'Acl',
         meta: { 
           icon: <LockOutlined />,
           title: '权限管理'
         },
         children: [
           {
+            name: 'Acl/User',
             path: '/syt/acl/user',
             meta: {
               title: '用户管理'
@@ -165,6 +202,7 @@ const routes: SRoutes = [
             element: load(User)
           },
           {
+            name: 'Acl/Role',
             path: '/syt/acl/role',
             meta: {
               title: '角色管理'
@@ -172,6 +210,7 @@ const routes: SRoutes = [
             element: load(Role)
           },
           {
+            name: 'Acl/Permision',
             path: '/syt/acl/permision',
             meta: {
               title: '菜单管理'
@@ -179,6 +218,7 @@ const routes: SRoutes = [
             element: load(Permision)
           },
           {
+            name: 'Acl/Role/Assgin',
             path: '/syt/acl/role/:id',
             meta: {
               title: '角色授权'
@@ -190,28 +230,4 @@ const routes: SRoutes = [
       }
     ],
   },
-
-  {
-    path: "/404",
-    element: load(NotFound),
-  },
-  {
-    path: "*",
-    element: <Navigate to="/404" />,
-  },
 ];
-
-/* 
-自定义hook: 注册应用的所有路由
-*/
-export const useAppRoutes = () => {
-  return useRoutes(routes);
-};
-
-// 找到要渲染成左侧菜单的路由
-export const findSideBarRoutes = () => {
-  const currentIndex = routes.findIndex((route) => route.path === "/syt");
-  return routes[currentIndex].children as SRoutes;
-};
-
-export default routes;

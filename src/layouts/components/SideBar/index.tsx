@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { useTranslation } from "react-i18next";
 
-import { findSideBarRoutes } from "@/routes";
-import { SRoutes } from "@/routes/types";
+import { findSideBarRoutes } from "@/router";
+import { SRoutes } from "@/router/types";
 import type { MenuProps } from "antd";
 
 import "./index.less";

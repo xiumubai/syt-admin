@@ -11,6 +11,7 @@ export interface SRoute extends RouteObject {
   
   meta?: SMeta;
   hidden?: boolean;
+  name: string;
 }
 
 export type SRoutes = SRoute[];
