@@ -31,7 +31,6 @@ function withAuthorization(WrappedComponent: FC) { // FunctionComponent
     
     // 获取当前请求的路由地址
     const { pathname } = useLocation();
-    console.log('----', pathname)
     
     // 如果有token, 说明至少登录过
     if (token) {

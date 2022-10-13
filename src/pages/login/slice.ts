@@ -71,6 +71,7 @@ const userSlice = createSlice({
         state.avatar = avatar
         state.routes = routes;
         state.buttons = buttons;
+        console.log('state.routes', state.routes)
 
         // TODO: 根据后端返回的routes筛选前端需要控制权限的路由
 

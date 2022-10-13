@@ -15,3 +15,20 @@ export interface SRoute extends RouteObject {
 }
 
 export type SRoutes = SRoute[];
+
+
+export interface TreeRouterFilterParams {
+  routeHash: Record<string, any>;
+  allAsyncRoutes: SRoutes;
+  lv?: number
+}
+export interface TreeRouterFilter {
+  (params: TreeRouterFilterParams): SRoutes
+}
+export interface FilterRouterParams{
+  allAsyncRoutes: SRoutes,
+  routes: string[]
+}
+export interface FilterRouter {
+  (params: FilterRouterParams): SRoutes 
+}
