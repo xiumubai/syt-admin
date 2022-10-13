@@ -1,6 +1,5 @@
 import { reqGetUserInfo, reqLogin, reqLogout } from "@/api/user";
 import { RootState } from "@/app/store";
-import route from "@/locales/lang/en_US/route";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // 登陆参数的类型
