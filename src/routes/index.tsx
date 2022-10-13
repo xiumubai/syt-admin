@@ -28,6 +28,7 @@ const Dict = lazy(() => import("@pages/cmn/dict"));
 const User = lazy(() => import("@pages/acl/user"));
 const Permision = lazy(() => import("@pages/acl/permision"));
 const Role = lazy(() => import("@pages/acl/role"));
+const RoleAuth = lazy(() => import("@pages/acl/role/auth"));
 const load = (Comp: FC) => {
   return (
     // 因为路由懒加载，组件需要一段网络请求时间才能加载并渲染
@@ -176,7 +177,15 @@ const routes: SRoutes = [
               title: '菜单管理'
             },
             element: load(Permision)
-          }
+          },
+          {
+            path: '/syt/acl/role/:id',
+            meta: {
+              title: '角色授权'
+            },
+            hidden: true, // 不在导航菜单中显示
+            element: load(RoleAuth)
+          },
         ]
       }
     ],

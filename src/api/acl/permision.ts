@@ -2,7 +2,7 @@
  * @Author: 朽木白
  * @Date: 2022-10-10 08:47:16
  * @LastEditors: 1547702880@@qq.com
- * @LastEditTime: 2022-10-10 11:54:40
+ * @LastEditTime: 2022-10-13 09:46:41
  * @Description: 权限管理相关的API请求函数
  */
 import { request } from "@/utils/http"
@@ -42,13 +42,13 @@ export const updatePermission = (permission: any) => {
 /**
  * 查看某个角色的权限列表
  */
-export const toAssign = (roleId: number) => {
+export const toAssign = (roleId: string | undefined) => {
   return request.get(`${api_name}/toAssign/${roleId}`)
 }
 
 /**
  * 给某个角色授权
  */
-export const doAssign = (roleId: number, permissionId: number) => {
-  return request.post(`${api_name}/doAssign`, {params: {roleId, permissionId}})
+export const doAssign = (roleId: string | undefined, permissionId: any) => {
+  return request.post(`${api_name}/doAssign?roleId=${roleId}&permissionId=${permissionId}`)
 }
