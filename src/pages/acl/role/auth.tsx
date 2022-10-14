@@ -5,7 +5,16 @@ import { toAssign, doAssign } from '@/api/acl/permision'
 import { useSearch } from '@/app/hooks'
 import {AssignItemType } from '@/api/acl/modal/roleTypes'
 import './index.less'
-import { use } from 'echarts'
+
+/**
+ * @description: 【antd】Tree组件子节点不完全勾选获取父节点的值问题解决方案 
+ * @returns {*}
+ * @docs https://zhuanlan.zhihu.com/p/77026123
+ * 1.循环遍历出最深层子节点，存放在一个数组中
+ * 2.将后台返回的含有父节点的数组和第一步骤遍历的数组做比较
+ * 3.如果有相同值，将相同值取出来，push到一个新数组中
+ * 4.利用这个新的重组的数组给Tree组件selected赋值
+ */
 
 const fieldNames = {
   title: 'name',
@@ -22,7 +31,6 @@ const Auth: React.FC = () => {
   const { roleName } = useSearch()
   const navigate = useNavigate()
 
-  const allList: any[] = []
   const childList: any[] = []
   useEffect(() => {
     getList(id)
@@ -37,18 +45,17 @@ const Auth: React.FC = () => {
       const res: any = await toAssign(id)
       const arr: any = getChildList(res)
       setChildIds(arr);
-      const menuIds = getCheckedIds(res, [])
+      const menuIds: any = getCheckedIds(res, [])
       const uniqueChild = uniqueTree(menuIds, arr)
-      // 拿到所有的ids
-      const ids: any = getCheckedIds(res, [])
-      setExpandedKeys(ids)
+      setExpandedKeys(menuIds)
       setRoleList(res)
+      // 5.利用这个新的重组的数组给Tree组件selected赋值
       setCheckedIds(uniqueChild)
       
     } catch (e) {}
   }
 
-  // 拿到所有的子id
+  // 1.循环遍历出最深层子节点，存放在一个数组中
   const getChildList = (data: any) => {
     data && data.map((item: { children: string | any[]; id: any }) =>{
       if(item.children && item.children.length>0){
@@ -61,7 +68,8 @@ const Auth: React.FC = () => {
     return childList;
   }
 
-  // 将后台返回的含有父节点的数组和第一步骤遍历的数组做比较,如果有相同值，将相同值取出来，push到一个新数组中
+  // 2.将后台返回的含有父节点的数组和第一步骤遍历的数组做比较
+  // 3.如果有相同值，将相同值取出来，push到一个新数组中
   const uniqueTree = (uniqueArr: any, Arr: any) => {
     let uniqueChild: any = []
     for(var i in Arr){
@@ -75,7 +83,7 @@ const Auth: React.FC = () => {
   }
 
 
-  // 拿到所有选中的节点
+  // 4.拿到后端返回的所有选中的节点
   const getCheckedIds = (auths: AssignItemType[], initArr: any[]) =>{ 
     auths.forEach((item) => {
       if (item.select) {
@@ -98,7 +106,6 @@ const Auth: React.FC = () => {
   }
 
   const onCheck = (keys: any, e: any) => {
-    console.log('checkedKeysValue', keys, e.halfCheckedKeys);
     const arr = keys.concat(e.halfCheckedKeys)
     // setCheckedIds(arr)
     //  当选中的时候，还需要对id进行控制
