@@ -27,7 +27,6 @@ import {
   assignRoles,
 } from '@/api/acl/user'
 import type { Key } from 'react'
-
 import {
   UserItem,
   UserList,
@@ -38,6 +37,7 @@ import {
 import type { ColumnsType } from 'antd/lib/table'
 import type { CheckboxChangeEvent } from 'antd/es/checkbox'
 import './index.less'
+import AuthButton from '@/components/authButton'
 
 const { confirm } = Modal
 const CheckboxGroup = Checkbox.Group
@@ -58,7 +58,7 @@ const User: React.FC = () => {
   const [form] = useForm()
   const [formSearch] = useForm()
   const [roleForm] = useForm()
-
+  
   useEffect(() => {
     initUserList()
   }, [])
@@ -290,12 +290,14 @@ const User: React.FC = () => {
               icon={<UserOutlined />}
               onClick={() => handleAddUser(3, row)}
             ></Button>
-            <Button
-              type="primary"
-              icon={<EditOutlined />}
-              className="ml"
-              onClick={() => handleAddUser(2, row)}
-            ></Button>
+            <AuthButton authKey="btn.User.update">
+              <Button
+                type="primary"
+                icon={<EditOutlined />}
+                className="ml"
+                onClick={() => handleAddUser(2, row)}
+              ></Button>  
+            </AuthButton>
             <Button
               type="primary"
               icon={<DeleteOutlined />}
