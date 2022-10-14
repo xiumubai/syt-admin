@@ -78,6 +78,8 @@ const userSlice = createSlice({
         state.name = ''
         state.avatar = ''
         state.token = ''
+        state.routes = []
+        state.buttons = []
         localStorage.removeItem('token_key')
       })
   },
