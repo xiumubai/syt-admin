@@ -48,16 +48,21 @@ request.interceptors.response.use(
   response => { // 成功的回调
     console.log('响应拦截器成功的回调', response)
     // 3. 请求操作成功返回响应体json中的data属性数据 => 响应拦截器的成功回调
-    if (response.data.code===200) {
+    if (response.data.code === 200) {
       return response.data.data
-    } else {// 4. 请求操作失败, 统一错误提示 => 响应拦截器的成功回调
-      const errorMsg = response.data.data || response.data.message || '请求未知错误'
-      message.error(errorMsg)
-
-      // 将错误向下传递 => 传递给具体的请求
-      return Promise.reject(new Error(errorMsg))
     }
-    
+    if (response.data.code === 203) {
+      // 5. 如果token过期或者没有token，统一跳转到login
+      window.location.href = `${window.location.origin}/login?callback=${window.location.pathname}`;
+      return ;
+    }
+    // 4. 请求操作失败, 统一错误提示 => 响应拦截器的成功回调
+    const errorMsg = response.data.data || response.data.message || '请求未知错误'
+    message.error(errorMsg)
+
+    // 将错误向下传递 => 传递给具体的请求
+    return Promise.reject(new Error(errorMsg))
+
   },
   // 4. 请求失败, 统一错误提示 => 响应拦截器的失败回调
   error => { // 失败的回调

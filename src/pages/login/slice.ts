@@ -1,6 +1,5 @@
 import { reqGetUserInfo, reqLogin, reqLogout } from "@/api/user";
 import { RootState } from "@/app/store";
-import route from "@/locales/lang/en_US/route";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // 登陆参数的类型
@@ -71,11 +70,7 @@ const userSlice = createSlice({
         state.avatar = avatar
         state.routes = routes;
         state.buttons = buttons;
-
-        // TODO: 根据后端返回的routes筛选前端需要控制权限的路由
-
-        // 获取到allAsyncRoutes，和routers根据name进行匹配，匹配完成放到state.routres当中，还需要吧anyRoute也加入到其中
-
+        console.log('state.routes', state.routes)
       })
       // 退出请求成功后的reducer处理
       .addCase(logoutAsync.fulfilled, (state, action) => {
@@ -83,6 +78,8 @@ const userSlice = createSlice({
         state.name = ''
         state.avatar = ''
         state.token = ''
+        state.routes = []
+        state.buttons = []
         localStorage.removeItem('token_key')
       })
   },

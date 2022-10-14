@@ -16,5 +16,6 @@ export const reqLogout = () => {
 
 // 获取用户信息
 export const reqGetUserInfo = () => {
+  
   return request.get<any, ReqGetUserInfoResponse>("/admin/acl/index/info");
 };

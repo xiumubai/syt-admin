@@ -53,5 +53,4 @@ export interface AssignItemType {
   level: number;
   name: string;
   select: boolean;
-  [K:string]:any;
 }

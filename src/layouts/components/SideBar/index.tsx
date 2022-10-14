@@ -82,7 +82,7 @@ function SideBar() {
 
   return (
     <Sider collapsible collapsed={collapsed} onCollapse={onCollapse} breakpoint="lg">
-      <h1 className="layout-title">
+      <h1 className="layout-title" onClick={() => navigate('/')}>
         <img className="layout-logo" src={logo} alt="logo" />
         <span style={{ display: collapsed ? "none" : "inline-block" }}>{t("app:title")}</span>
       </h1>
