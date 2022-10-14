@@ -38,6 +38,3 @@ export const appReducer = appSlice.reducer;
 
 // 暴露用来获取数据的select函数
 export const selectLang = (state: RootState) => state.app.lang;
-
-// 获取权限
-export const selectUserRouters = (state: RootState) => state.user.routes

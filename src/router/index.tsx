@@ -6,7 +6,7 @@ import type { SRoutes } from "./types";
 
 import { allAsyncRoutes, constantRoutes } from "./routes";
 import { useAppSelector } from "@/app/hooks";
-import { selectUserRouters } from "@/app/appSlice";
+import { selectUser } from "@/pages/login/slice";
 import { filterRouter } from "./effect";
 
 
@@ -14,10 +14,10 @@ import { filterRouter } from "./effect";
 自定义hook: 注册应用的所有路由
 */
 export const useAppRoutes = () => {
-  const allRouter = useAppSelector(selectUserRouters);
-  const resultRouter = allRouter?.length ? filterRouter({
+  const {routes} = useAppSelector(selectUser);
+  const resultRouter = routes?.length ? filterRouter({
     allAsyncRoutes: allAsyncRoutes,
-    routes: allRouter 
+    routes: routes 
   }) : constantRoutes
   return useRoutes(resultRouter);
 };

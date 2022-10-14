@@ -4,6 +4,7 @@ import { Spin } from "antd";
 
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { getUserInfoAsync, selectUser } from "@/pages/login/slice";
+
 /*
   高阶组件HOC
     本质上是一个函数，接受组件作为参数，返回一个新组件
@@ -13,7 +14,10 @@ import { getUserInfoAsync, selectUser } from "@/pages/login/slice";
       /syt/dashboard --> Layout/Dashboard
 */
 function withAuthorization(WrappedComponent: FC) { // FunctionComponent
+
+
   return () => {
+    
     /* 
     =>是否有token?
       有 (登陆过) =>是否访问登陆页?
@@ -28,6 +32,7 @@ function withAuthorization(WrappedComponent: FC) { // FunctionComponent
     
     // 读取redux中管理的token和用户名   ==> 只要状态数据发生了改变, 当前组件函数就会自动重新执行
     const { token, name } = useAppSelector(selectUser);
+   
     
     // 获取当前请求的路由地址
     const { pathname } = useLocation();
