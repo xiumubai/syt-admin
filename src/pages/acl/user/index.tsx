@@ -40,7 +40,6 @@ import './index.less'
 import AuthButton from '@/components/authButton'
 
 const { confirm } = Modal
-const CheckboxGroup = Checkbox.Group
 
 const User: React.FC = () => {
   const [userList, setUserList] = useState<UserList>([])
@@ -53,7 +52,7 @@ const User: React.FC = () => {
   const [modalType, setModalType] = useState<UserType>(1)
   const [user, setUser] = useState<UserItem>()
   const [roleList, setRoleList] = useState<OptionTypes[]>([])
-  const [userRolesIds, setUserRolesIds] = useState([])
+  const [userRolesIds, setUserRolesIds] = useState<number[]>([])
   const [checkAll, setCheckAll] = useState<boolean>(false)
   const [form] = useForm()
   const [formSearch] = useForm()
@@ -110,11 +109,16 @@ const User: React.FC = () => {
       const r = res.allRolesList.map((item: any) => {
         return {
           label: item.roleName,
-          value: item.id + '',
+          value: item.id,
         }
       })
+      
       setRoleList(r)
-      setUserRolesIds(res?.assignRoles.map((i: any) => i?.id))
+      console.log(res.assignRoles);
+      
+      const l: number[] = res?.assignRoles.map((i: any) => i?.id)
+      
+      setUserRolesIds(l)
       setCheckAll(res.allRolesList.length === res.assignList.length)
     } catch (e) {}
   }
@@ -214,6 +218,8 @@ const User: React.FC = () => {
   const handleCheckAll = (e: CheckboxChangeEvent) => {
     const checked = e.target.checked
     const l: any = checked ? roleList.map((item) => item.value) : []
+    console.log(l);
+    
     setCheckAll(checked)
     setUserRolesIds(l)
   }
@@ -411,7 +417,7 @@ const User: React.FC = () => {
                 onChange={handleCheckAll}
               />
               <div className="mbp-15"></div>
-              <CheckboxGroup
+              <Checkbox.Group
                 onChange={handleCheckBoxChange}
                 value={userRolesIds}
                 options={roleList}
