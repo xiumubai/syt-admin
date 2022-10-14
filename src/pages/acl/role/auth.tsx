@@ -47,14 +47,13 @@ const Auth: React.FC = () => {
         getCheckedIds(item.children, initArr)
       }
     })
-    // console.log('initArr', initArr);
-    return initArr 
+    return initArr
   }
 
   const handleSave = async() => {
     try {
       console.log(checkedIds);
-      
+
       await doAssign(id, checkedIds);
       message.success('分配权限成功')
       navigate('/syt/acl/role', {replace: true})
@@ -62,8 +61,10 @@ const Auth: React.FC = () => {
     } catch(e) {}
   }
 
-  const onCheck = (checkedKeysValue: any) => {
-    setCheckedIds(checkedKeysValue)
+  const onCheck = (keys: any, e: any) => {
+    console.log('checkedKeysValue', keys, e.halfCheckedKeys);
+    const arr = keys.concat(e.halfCheckedKeys)
+    setCheckedIds(arr)
   };
   const onExpand = (expandedKeysValue: any) => {
     setExpandedKeys(expandedKeysValue)
@@ -86,7 +87,6 @@ const Auth: React.FC = () => {
             checkable
             onCheck={onCheck}
             onExpand={onExpand}
-            defaultExpandAll
             checkedKeys={checkedIds}
             expandedKeys={expandedKeys}
             treeData={roleList}
