@@ -2,7 +2,6 @@
 
 import { FilterRouter, TreeRouterFilter } from "./types";
 
-
 // 递归处理
 const treeRouterFilter: TreeRouterFilter = ({
   routeHash,
