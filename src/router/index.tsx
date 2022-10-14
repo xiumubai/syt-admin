@@ -4,7 +4,7 @@ import { useRoutes,  } from "react-router-dom";
 import type { SRoutes } from "./types";
 
 
-import { allAsyncRoutes, constantRoutes } from "./routes";
+import { allAsyncRoutes, anyRoute, constantRoutes } from "./routes";
 import { useAppSelector } from "@/app/hooks";
 import { selectUser } from "@/pages/login/slice";
 import { filterRouter } from "./effect";
@@ -19,7 +19,7 @@ export const useAppRoutes = () => {
     allAsyncRoutes: allAsyncRoutes,
     routes: routes 
   }) : constantRoutes
-  return useRoutes(resultRouter);
+  return useRoutes([...resultRouter, ...anyRoute]);
 };
 
 // 找到要渲染成左侧菜单的路由
