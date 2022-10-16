@@ -57,7 +57,7 @@ const User: React.FC = () => {
   const [form] = useForm()
   const [formSearch] = useForm()
   const [roleForm] = useForm()
-  
+
   useEffect(() => {
     initUserList()
   }, [])
@@ -112,12 +112,12 @@ const User: React.FC = () => {
           value: item.id,
         }
       })
-      
+
       setRoleList(r)
-      console.log(res.assignRoles);
-      
+      console.log(res.assignRoles)
+
       const l: number[] = res?.assignRoles.map((i: any) => i?.id)
-      
+
       setUserRolesIds(l)
       setCheckAll(res.allRolesList.length === res.assignList.length)
     } catch (e) {}
@@ -218,8 +218,8 @@ const User: React.FC = () => {
   const handleCheckAll = (e: CheckboxChangeEvent) => {
     const checked = e.target.checked
     const l: any = checked ? roleList.map((item) => item.value) : []
-    console.log(l);
-    
+    console.log(l)
+
     setCheckAll(checked)
     setUserRolesIds(l)
   }
@@ -291,18 +291,20 @@ const User: React.FC = () => {
       render(row: UserItem) {
         return (
           <>
-            <Button
-              type="primary"
-              icon={<UserOutlined />}
-              onClick={() => handleAddUser(3, row)}
-            ></Button>
+            <AuthButton authKey="btn.User.assgin">
+              <Button
+                type="primary"
+                icon={<UserOutlined />}
+                onClick={() => handleAddUser(3, row)}
+              ></Button>
+            </AuthButton>
             <AuthButton authKey="btn.User.update">
               <Button
                 type="primary"
                 icon={<EditOutlined />}
                 className="ml"
                 onClick={() => handleAddUser(2, row)}
-              ></Button>  
+              ></Button>
             </AuthButton>
             <Button
               type="primary"
