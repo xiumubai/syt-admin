@@ -68,6 +68,11 @@ export const constantRoutes: SRoutes = [
         element: load(Login),
       },
       {
+        name: 'NotFound',
+        path: "/404",
+        element: load(NotFound),
+      },
+      {
         path: "/syt",
         element: <Layout />,
         name: "Syt",
@@ -89,10 +94,6 @@ export const constantRoutes: SRoutes = [
 
 // 404、*路由
 export const anyRoute = [
-  {
-    path: "/404",
-    element: load(NotFound),
-  },
   {
     path: "*",
     element: <Navigate to="/404" />,
