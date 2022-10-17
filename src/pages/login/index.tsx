@@ -2,7 +2,7 @@ import { Form, Input, Button, message } from "antd";
 // redux相关
 import { useAppDispatch } from "@/app/hooks";
 import { loginAsync, LoginParams } from "./slice";
-
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import "./index.less";
 
 function Login() {
@@ -27,27 +27,26 @@ function Login() {
         <h1>尚医通平台管理系统</h1>
         <Form
           name="basic"
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 20 }}
           initialValues={{ username: "admin", password: "111111" }}
           onFinish={onFinish}
           autoComplete="off"
         >
-          <Form.Item label="用户名" name="username" rules={[{ required: true, message: "请输入用户名!" }]}>
-            <Input />
+          <Form.Item label="" name="username" rules={[{ required: true, message: "请输入用户名!" }]}>
+            <Input prefix={<UserOutlined />} placeholder="用户名：admin"/>
           </Form.Item>
 
-          <Form.Item label="密码" name="password" rules={[{ required: true, message: "请输入用户名密码!" }]}>
-            <Input.Password />
+          <Form.Item label="" name="password" rules={[{ required: true, message: "请输入用户名密码!" }]}>
+            <Input.Password prefix={<LockOutlined />} placeholder="密码：111111" />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ span: 24 }}>
+          <Form.Item >
             <Button type="primary" htmlType="submit" className="login-btn">
               登录
             </Button>
-            <br />
-            <br />
-            <p>用户名:admin 密码:111111</p>
+          </Form.Item>
+
+          <Form.Item>
+            其他登陆方式：<a href="www.baidu.com">微信</a>
           </Form.Item>
         </Form>
       </div>
