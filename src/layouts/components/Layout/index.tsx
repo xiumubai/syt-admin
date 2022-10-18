@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Layout, Button } from "antd";
 
-import withAuthorization from "@/components/withAuthorization";
+// import withAuthorization from "@/components/withAuthorization";
 import Avatar from "../Avatar";
 import Breadcrumb from "../Breadcrumb";
 import SideBar from "../SideBar";
@@ -51,4 +51,4 @@ function LayoutComponent() {
   );
 }
 
-export default withAuthorization(LayoutComponent);
+export default LayoutComponent;

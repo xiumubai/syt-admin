@@ -3,7 +3,7 @@ import { useLocation, Navigate } from "react-router-dom";
 import { Spin } from "antd";
 
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { getUserInfoAsync, selectUser } from "@/pages/login/slice";
+import { getUserInfoAsync, selectUser, setToken } from "@/pages/login/slice";
 
 /*
   高阶组件HOC
@@ -33,10 +33,10 @@ function withAuthorization(WrappedComponent: FC) { // FunctionComponent
     // 读取redux中管理的token和用户名   ==> 只要状态数据发生了改变, 当前组件函数就会自动重新执行
     const { token, name } = useAppSelector(selectUser);
    
-    
     // 获取当前请求的路由地址
     const { pathname } = useLocation();
-    
+    const dispatch = useAppDispatch();
+
     // 如果有token, 说明至少登录过
     if (token) {
       // 如果要去的是登陆页面或根路径路由, 自动访问首页
@@ -51,7 +51,7 @@ function withAuthorization(WrappedComponent: FC) { // FunctionComponent
       }
 
       // 还没有登陆, 分发请求获取用户信息的异步action
-      const dispatch = useAppDispatch();
+      
       dispatch(getUserInfoAsync());
 
       // 在请求过程中, 先显示loading效果 
@@ -59,12 +59,22 @@ function withAuthorization(WrappedComponent: FC) { // FunctionComponent
         // 当前组件会再将渲染, 由于token和name都有了, 就会渲染目标组件界面
       return <Spin size="large" />;
     } else { // 没有登录过 => 都得去登陆页面
+      // 判断是否是微信扫码登陆
+      const params = new URLSearchParams(document.location.search.substring(1));
+      const token = params.get('token');
+
+      if (token) {
+        // 微信扫码登陆，获取到token，直接跳转到首页
+        dispatch(setToken(token))
+        return <Navigate to="/syt/dashboard" />;
+      }
       // 如果访问的是登陆页面, 直接显示对应的组件
       if (pathname === "/login") {
         return <WrappedComponent />;
       }
-      // 如果访问不是登录页面, 自动跳转到登陆页面
+      // // 如果访问不是登录页面, 自动跳转到登陆页面
       return <Navigate to="/login" />;
+      
     }
   };
 }

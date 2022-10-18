@@ -49,7 +49,13 @@ const userSlice = createSlice({
   name: 'user', // 标识名称
   initialState, // 初始状态
   // 配置同步action对应的reducer => 同步action会自动生成
-  reducers: {},
+  reducers: {
+    setToken: (state, action) => {
+      const token = action.payload;
+      state.token = token
+      localStorage.setItem('token_key', token)
+    }
+  },
   // 为前面定义的异步action, 定义对应的reducer
   extraReducers(builder) {
     builder
@@ -87,6 +93,8 @@ const userSlice = createSlice({
 
 // 暴露reducer
 export const userReducer = userSlice.reducer
+
+export const { setToken } = userSlice.actions;
 
 // 暴露用于读取当前状态数据的select函数
 export const selectUser = (state: RootState) => state.user

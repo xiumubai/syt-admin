@@ -1,3 +1,4 @@
+
 import { Form, Input, Button, message } from "antd";
 // redux相关
 import { useAppDispatch } from "@/app/hooks";
@@ -8,7 +9,6 @@ import "./index.less";
 function Login() {
 
   const dispatch = useAppDispatch()
-
 
   // 点击提交按钮, 且校验通过后才执行
   const onFinish = async (values: LoginParams) => {
@@ -21,6 +21,13 @@ function Login() {
 
   };
 
+  // 使用微信扫码登陆
+  const handleWeixinLogin = async() => {
+    const origin: string = window.location.origin;
+    window.location.href= `http://gmall-h5-api.atguigu.cn/api/user/weixin/login?redirect_uri=${origin}`
+  }
+
+  
   return (
     <div className="login">
       <div className="login-container">
@@ -45,9 +52,9 @@ function Login() {
             </Button>
           </Form.Item>
 
-          <Form.Item>
-            其他登陆方式：<a href="www.baidu.com">微信</a>
-          </Form.Item>
+          {/* <Form.Item>
+            其他登陆方式：<Button onClick={handleWeixinLogin}>微信</Button>
+          </Form.Item> */}
         </Form>
       </div>
     </div>

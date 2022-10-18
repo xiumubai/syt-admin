@@ -53,7 +53,7 @@ request.interceptors.response.use(
     }
     if (response.data.code === 203) {
       // 5. 如果token过期或者没有token，统一跳转到login
-      window.location.href = `${window.location.origin}/login?callback=${window.location.pathname}`;
+      // window.location.href = `${window.location.origin}/login?callback=${window.location.pathname}`;
       return ;
     }
     // 4. 请求操作失败, 统一错误提示 => 响应拦截器的成功回调
